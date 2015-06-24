@@ -25,12 +25,12 @@ define(
 npm install miaow-amd-parse --save-dev
 ```
 
-### 在项目的 miaow.config.js 中添加模块的 parse 设置
+### 在项目的 miaow.config.js 中添加模块的 tasks 设置
 
 ```javascript
 //miaow.config.js
 module: {
-  parse: [
+  tasks: [
     {
       test: /\.js$/,
       plugins: ['miaow-amd-parse']

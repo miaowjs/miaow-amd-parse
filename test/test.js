@@ -13,11 +13,9 @@ describe('miaow-amd-parse', function () {
     miaow.compile({
       cwd: path.resolve(__dirname, './fixtures'),
       output: path.resolve(__dirname, './output'),
-      mini: false,
-      lint: false,
       pack: false,
       module: {
-        parse: [
+        tasks: [
           {
             test: /\.js$/,
             plugins: [
