@@ -1,13 +1,17 @@
 {
   "name": "miaow-amd-parse",
   "description": "Miaow的AMD解析工具",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "repository": "miaowjs/miaow-amd-parse",
   "author": {
     "name": "anhulife",
     "email": "anhulife@gmail.com"
   },
   "license": "MIT",
+  "keywords": [
+    "miaow",
+    "amd"
+  ],
   "dependencies": {
     "async": "~0.9.0",
     "miaow-util": "~0.0.4",

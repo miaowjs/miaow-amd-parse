@@ -5,7 +5,7 @@ var recast = require('recast');
 var pkg = require('./package.json');
 
 function parse(option, cb) {
-  var ast = recast.parse(this.file.contents.toString());
+  var ast = recast.parse(this.contents.toString());
   var types = recast.types;
   var n = types.namedTypes;
   var defineNode;
@@ -78,7 +78,7 @@ function parse(option, cb) {
     }
 
     //修改文件内容
-    this.file.contents = new Buffer(recast.print(ast).code);
+    this.contents = new Buffer(recast.print(ast).code);
 
     var id = this.url || this.destPathWithHash;
     var b = types.builders;
@@ -92,7 +92,7 @@ function parse(option, cb) {
     }
 
     //修改文件内容
-    this.file.contents = new Buffer(recast.print(ast).code);
+    this.contents = new Buffer(recast.print(ast).code);
 
     cb();
   }.bind(this));
