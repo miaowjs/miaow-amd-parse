@@ -5,7 +5,7 @@
     console.log('true');
   }
 
-  define(['bar', './foo/foo', 'fob'], function (bar, foo) {
+  define(['bar', './foo/foo', 'fob', 'fob/lib/foc'], function (bar, foo, foc) {
     return 'baz';
   });
 })();

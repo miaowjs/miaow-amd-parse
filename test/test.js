@@ -56,6 +56,6 @@ describe('miaow-amd-parse', function () {
   });
 
   it('修改依赖路径', function () {
-    assert.equal(log.modules['baz.js'].hash, '56b14bb42b3eb490088a92fb3ebcc9b1');
+    assert.equal(log.modules['baz.js'].hash, '18983ffd7706c9ffec0f36934419c8db');
   });
 });
