@@ -1,101 +1,61 @@
 var async = require('async');
-var mutil = require('miaow-util');
+var fs = require('fs');
+var path = require('path');
 var recast = require('recast');
+var uniq = require('lodash.uniq');
 
-var pkg = require('./package.json');
+var defineParse = require('./lib/defineParse');
+var requireParse = require('./lib/requireParse');
 
-function parse(option, cb) {
-  var ast = recast.parse(this.contents.toString());
-  var types = recast.types;
-  var n = types.namedTypes;
-  var defineNode;
+// 查看是否是某个包的主入口
+function isPackageMain(filePath, root) {
+  var searchDir = path.dirname(filePath);
+  var relative = path.relative(root, searchDir);
 
-  //查询define语句
-  types.visit(ast, {
-    visitCallExpression: function (path) {
-      var node = path.node;
+  // 逐级向上查找package.json, 并判断package.json里面的main信息是否指向这个文件地址
+  do {
+    var filenameList = fs.readdirSync(searchDir);
 
-      if (
-        n.Identifier.check(node.callee) &&
-        node.callee.name === 'define'
-      ) {
-        defineNode = node;
+    if (filenameList.indexOf('package.json') !== -1) {
+      var pkgInfo = JSON.parse(fs.readFileSync(path.join(searchDir, 'package.json'), {encoding: 'utf8'}));
+
+      if (pkgInfo.main && path.join(searchDir, pkgInfo.main) === filePath) {
+        return true;
       }
-
-      this.traverse(path);
-    }
-  });
-
-  //如果没有查到define语句
-  if (!defineNode) {
-    return cb();
-  }
-
-  var args = defineNode.arguments;
-  var idNode;
-  var dependenciesNode = {elements: []};
-
-  //获取模块标识
-  if (args.length > 1 && n.Literal.check(args[0])) {
-    idNode = args[0];
-
-    args = args.slice(1);
-  }
-
-  //获取依赖
-  if (args.length > 1 && n.ArrayExpression.check(args[0])) {
-    dependenciesNode = args[0];
-
-    args = args.slice(1);
-  }
-
-  async.eachSeries(dependenciesNode.elements, function (elementNode, cb) {
-    //修改依赖路径
-    this.getModule(elementNode.value, function (err, module) {
-      if (err) {
-        return cb(new mutil.PluginError(pkg.name, err, {
-          fileName: this.srcAbsPath,
-          lineNumber: elementNode.loc.start.line
-        }));
-      }
-
-      //添加依赖信息
-      this.dependencies.push(module.srcPath);
-
-      elementNode.value = module.url || module.destPathWithHash;
-      cb();
-    }.bind(this));
-  }.bind(this), function (err) {
-    if (err) {
-      if (!err instanceof mutil.PluginError) {
-        err = new mutil.PluginError(pkg.name, err, {
-          fileName: this.srcAbsPath,
-          lineNumber: defineNode.loc.start.line
-        });
-      }
-
-      return cb(err);
     }
 
-    //修改文件内容
-    this.contents = new Buffer(recast.print(ast).code);
+    searchDir = path.resolve(searchDir, '..');
+    relative = path.relative(root, searchDir);
+  } while (!/^\.\./.test(relative));
 
-    var id = this.url || this.destPathWithHash;
-    var b = types.builders;
-
-    //设置模块ID
-    if (!idNode) {
-      idNode = b.literal(id);
-      defineNode.arguments.unshift(idNode);
-    } else {
-      idNode.value = id;
-    }
-
-    //修改文件内容
-    this.contents = new Buffer(recast.print(ast).code);
-
-    cb();
-  }.bind(this));
+  return false;
 }
 
-module.exports = parse;
+module.exports = function (option, cb) {
+  var ast = recast.parse(this.contents.toString());
+
+  // 是否需要打包
+  this.packed = isPackageMain(this.srcAbsPath, this.cwd);
+
+  var module = this;
+
+  async.parallel([
+    requireParse.bind(this, option, ast),
+    defineParse.bind(this, option, ast)
+  ], function (err) {
+    if (err) {
+      return cb();
+    }
+
+    module.dependencies = uniq(module.dependencies);
+    module.packedModules = uniq(module.packedModules);
+
+    if (module.packedModules.length) {
+      module.packed = true;
+    }
+
+    // 修改模块ID, 并合并文件
+    module.contents = new Buffer(recast.print(ast).code);
+    cb();
+  });
+};

@@ -1,0 +1,2 @@
+require(['./depend'], function (depend) {
+});

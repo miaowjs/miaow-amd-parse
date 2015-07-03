@@ -1,7 +1,7 @@
 {
   "name": "miaow-amd-parse",
   "description": "Miaow的AMD解析工具",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "repository": "miaowjs/miaow-amd-parse",
   "author": {
     "name": "anhulife",
@@ -14,11 +14,12 @@
   ],
   "dependencies": {
     "async": "~0.9.0",
-    "miaow-util": "~0.1.0",
+    "lodash.uniq": "~3.2.2",
+    "miaow-util": "~0.2.0",
     "recast": "~0.10.12"
   },
   "devDependencies": {
-    "miaow": "~1.1.0",
+    "miaow": "~1.3.0",
     "mocha": "^2.2.4"
   },
   "scripts": {
