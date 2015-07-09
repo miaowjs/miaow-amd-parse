@@ -44,7 +44,7 @@ module.exports = function (option, cb) {
     defineParse.bind(this, option, ast)
   ], function (err) {
     if (err) {
-      return cb();
+      return cb(err);
     }
 
     module.dependencies = uniq(module.dependencies);
