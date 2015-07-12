@@ -47,6 +47,8 @@ describe('正常模式', function () {
     assert.equal(dependencies[1], 'bower_components/foo.js');
     assert.equal(dependencies[2], 'bower_components/bar/main.js');
     assert.equal(dependencies[3], 'bower_components/bar/lib/baz.js');
+
+    assert.equal(log.modules['require.js'].dependencies[0], 'depend.js');
   });
 
   it('修改依赖路径', function () {
