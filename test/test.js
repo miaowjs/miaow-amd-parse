@@ -44,15 +44,15 @@ describe('正常模式', function () {
     var dependencies = log.modules['depend.js'].dependencies;
 
     assert.equal(dependencies[0], 'id.js');
-    assert.equal(dependencies[1], 'bower_components/foo.js');
-    assert.equal(dependencies[2], 'bower_components/bar/main.js');
-    assert.equal(dependencies[3], 'bower_components/bar/lib/baz.js');
+    assert.equal(dependencies[1], 'bower_components/foo.js'.split('/').join(path.sep));
+    assert.equal(dependencies[2], 'bower_components/bar/main.js'.split('/').join(path.sep));
+    assert.equal(dependencies[3], 'bower_components/bar/lib/baz.js'.split('/').join(path.sep));
 
     assert.equal(log.modules['require.js'].dependencies[0], 'depend.js');
   });
 
   it('修改依赖路径', function () {
-    assert.equal(log.modules['require.js'].hash, '111a18566d19de0f01bab31eab175ce3');
+    assert.equal(log.modules['require.js'].hash, 'a067b5f727ff58d80c026106fdf0fdb4');
   });
 });
 
@@ -96,15 +96,15 @@ describe('打包模式', function () {
   it('包主入口打包', function () {
     var packedModules = log.modules['main.js'].packedModules;
 
-    assert.equal(packedModules[0], 'bower_components/foo.js');
-    assert.equal(packedModules[1], 'bower_components/bar/lib/baz.js');
+    assert.equal(packedModules[0], 'bower_components/foo.js'.split('/').join(path.sep));
+    assert.equal(packedModules[1], 'bower_components/bar/lib/baz.js'.split('/').join(path.sep));
   });
 
   it('强制打包', function () {
     var packedModules = log.modules['force.js'].packedModules;
 
-    assert.equal(packedModules[0], 'bower_components/foo.js');
-    assert.equal(packedModules[1], 'bower_components/bar/lib/baz.js');
-    assert.equal(packedModules[2], 'bower_components/bar/main.js');
+    assert.equal(packedModules[0], 'bower_components/foo.js'.split('/').join(path.sep));
+    assert.equal(packedModules[1], 'bower_components/bar/lib/baz.js'.split('/').join(path.sep));
+    assert.equal(packedModules[2], 'bower_components/bar/main.js'.split('/').join(path.sep));
   });
 });
