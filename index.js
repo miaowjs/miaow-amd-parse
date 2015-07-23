@@ -1,11 +1,13 @@
 var async = require('async');
 var fs = require('fs');
+var mutil = require('miaow-util');
 var path = require('path');
 var recast = require('recast');
 var uniq = require('lodash.uniq');
 
 var defineParse = require('./lib/defineParse');
 var requireParse = require('./lib/requireParse');
+var pkg = require('./package.json');
 
 // 查看是否是某个包的主入口
 function isPackageMain(filePath, root) {
@@ -31,7 +33,7 @@ function isPackageMain(filePath, root) {
   return false;
 }
 
-module.exports = function (option, cb) {
+function parse(option, cb) {
   var ast = recast.parse(this.contents.toString());
 
   // 是否需要打包
@@ -58,4 +60,7 @@ module.exports = function (option, cb) {
     module.contents = new Buffer(recast.print(ast).code);
     cb();
   });
-};
+}
+
+module.exports = mutil.plugin(pkg.name, pkg.version, parse);
+
