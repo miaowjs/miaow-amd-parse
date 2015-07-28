@@ -40,7 +40,7 @@ function parse(option, cb) {
     return cb();
   }
 
-  var ast = recast.parse(this.contents.toString());
+  var ast = recast.parse(contents);
 
   // 是否需要打包
   this.packed = isPackageMain(this.srcAbsPath, this.cwd);
