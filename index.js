@@ -12,7 +12,7 @@ var pkg = require('./package.json');
 // 查看是否是某个包的主入口
 function isPackageMain(filePath, root) {
   var searchDir = path.dirname(filePath);
-  var relative = path.relative(root, searchDir);
+  var relative = mutil.relative(root, searchDir);
 
   // 逐级向上查找package.json, 并判断package.json里面的main信息是否指向这个文件地址
   do {
@@ -27,7 +27,7 @@ function isPackageMain(filePath, root) {
     }
 
     searchDir = path.resolve(searchDir, '..');
-    relative = path.relative(root, searchDir);
+    relative = mutil.relative(root, searchDir);
   } while (!/^\.\./.test(relative));
 
   return false;
