@@ -34,6 +34,12 @@ function isPackageMain(filePath, root) {
 }
 
 function parse(option, cb) {
+  var contents = this.contents.toString();
+
+  if (!contents.trim()) {
+    return cb();
+  }
+
   var ast = recast.parse(this.contents.toString());
 
   // 是否需要打包
