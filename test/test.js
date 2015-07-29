@@ -41,14 +41,14 @@ describe('正常模式', function () {
   });
 
   it('获取依赖', function () {
-    var dependencies = log.modules['depend.js'].dependencies;
+    var dependList = log.modules['depend.js'].dependList;
 
-    assert.equal(dependencies[0], 'id.js');
-    assert.equal(dependencies[1], 'bower_components/foo.js');
-    assert.equal(dependencies[2], 'bower_components/bar/main.js');
-    assert.equal(dependencies[3], 'bower_components/bar/lib/baz.js');
+    assert.equal(dependList[0], 'id.js');
+    assert.equal(dependList[1], 'bower_components/foo.js');
+    assert.equal(dependList[2], 'bower_components/bar/main.js');
+    assert.equal(dependList[3], 'bower_components/bar/lib/baz.js');
 
-    assert.equal(log.modules['require.js'].dependencies[0], 'depend.js');
+    assert.equal(log.modules['require.js'].dependList[0], 'depend.js');
   });
 
   it('修改依赖路径', function () {

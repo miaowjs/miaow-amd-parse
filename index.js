@@ -55,7 +55,6 @@ function parse(option, cb) {
       return cb(err);
     }
 
-    module.dependencies = uniq(module.dependencies);
     module.packedModules = uniq(module.packedModules);
 
     if (module.packedModules.length) {
