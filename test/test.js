@@ -73,7 +73,8 @@ describe('打包模式', function () {
             plugins: [{
               plugin: parse,
               option: {
-                pack: true
+                pack: true,
+                ignore: ['jquery']
               }
             }]
           }
@@ -103,6 +104,7 @@ describe('打包模式', function () {
   it('强制打包', function () {
     var packedModules = log.modules['force.js'].packedModules;
 
+    assert.equal(packedModules.indexOf('jquery'), -1);
     assert.equal(packedModules[0], 'bower_components/foo.js');
     assert.equal(packedModules[1], 'bower_components/bar/lib/baz.js');
     assert.equal(packedModules[2], 'bower_components/bar/main.js');

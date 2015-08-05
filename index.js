@@ -3,7 +3,7 @@ var fs = require('fs');
 var mutil = require('miaow-util');
 var path = require('path');
 var recast = require('recast');
-var uniq = require('lodash.uniq');
+var uniq = require('lodash').uniq;
 
 var defineParse = require('./lib/defineParse');
 var requireParse = require('./lib/requireParse');
