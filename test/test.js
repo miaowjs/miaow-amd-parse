@@ -97,6 +97,8 @@ describe('打包模式', function () {
   it('包主入口打包', function () {
     var packedModules = log.modules['main.js'].packedModules;
 
+    assert.equal(packedModules.indexOf('bower_components/bar/main.js'), -1);
+    assert.equal(packedModules.indexOf('bower_components/bar/other.js'), -1);
     assert.equal(packedModules[0], 'bower_components/foo.js');
     assert.equal(packedModules[1], 'bower_components/bar/lib/baz.js');
   });

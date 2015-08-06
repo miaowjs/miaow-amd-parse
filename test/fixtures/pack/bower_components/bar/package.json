@@ -1,4 +1,7 @@
 {
   "name": "bar",
-  "main": "main.js"
+  "main": [
+    "main.js",
+    "other.js"
+  ]
 }

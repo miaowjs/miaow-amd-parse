@@ -1,3 +1,4 @@
+var _ = require('lodash');
 var async = require('async');
 var fs = require('fs');
 var mutil = require('miaow-util');
@@ -14,16 +15,27 @@ function isPackageMain(filePath, root) {
   var searchDir = path.dirname(filePath);
   var relative = mutil.relative(root, searchDir);
 
+  function detectMain(searchDir, mainList) {
+    return !!_.find(mainList, function (main) {
+      return path.join(searchDir, main) === filePath;
+    });
+  }
+
   // 逐级向上查找package.json, 并判断package.json里面的main信息是否指向这个文件地址
   do {
-    var filenameList = fs.readdirSync(searchDir);
+    var pkgFile = path.join(searchDir, 'package.json');
+    var mainList = [];
 
-    if (filenameList.indexOf('package.json') !== -1) {
-      var pkgInfo = JSON.parse(fs.readFileSync(path.join(searchDir, 'package.json'), {encoding: 'utf8'}));
+    if (fs.existsSync(pkgFile)) {
+      var pkg = JSON.parse(fs.readFileSync(pkgFile, {encoding: 'utf8'}));
 
-      if (pkgInfo.main && path.join(searchDir, pkgInfo.main) === filePath) {
-        return true;
+      if (pkg.main) {
+        mainList = _.isArray(pkg.main) ? pkg.main : [pkg.main];
       }
+    }
+
+    if (detectMain(searchDir, mainList)) {
+      return true;
     }
 
     searchDir = path.resolve(searchDir, '..');
