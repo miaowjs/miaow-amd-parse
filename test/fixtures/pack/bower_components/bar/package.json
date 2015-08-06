@@ -1,7 +1,7 @@
 {
   "name": "bar",
-  "main": [
-    "main.js",
+  "main": "main.js",
+  "packMain": [
     "other.js"
   ]
 }

@@ -23,14 +23,18 @@ function isPackageMain(filePath, root) {
 
   // 逐级向上查找package.json, 并判断package.json里面的main信息是否指向这个文件地址
   do {
-    var pkgFile = path.join(searchDir, 'package.json');
     var mainList = [];
 
+    var pkgFile = path.join(searchDir, 'package.json');
     if (fs.existsSync(pkgFile)) {
       var pkg = JSON.parse(fs.readFileSync(pkgFile, {encoding: 'utf8'}));
 
       if (pkg.main) {
-        mainList = _.isArray(pkg.main) ? pkg.main : [pkg.main];
+        mainList = mainList.concat(pkg.main);
+      }
+
+      if (pkg.packMain) {
+        mainList = mainList.concat(pkg.packMain);
       }
     }
 

@@ -42,6 +42,6 @@ module: {
 ### 参数说明
 
 * pack 默认为`false`, 这个参数用于设置是否打包的. 
-这里的打包逻辑是`package.json`中得`main`指定的主入口会打包`define`中声明的依赖.
-否则不会打包, 除非在`define`或`require`中指定依赖时使用`#pack`参数, 比如`require('foo#pack')`
+这里的打包逻辑是`package.json`中的`main`和`packMain`指定的打包入口文件, 会打包`define`中声明的依赖.
+否则不会打包, 除非在`define`或`require`中指定依赖时使用`#pack`参数, 比如`require('foo#pack')`. `packMain`可以是数组
 * ignore 默认为`undefined`, 用于排除寻路的模块名列表, 可以包含字符串和正则表达式, 比如`[jquery]`
