@@ -1,4 +1,4 @@
-define(['bar#pack', 'foo#pack'], function (bar, foo) {
+define(['bar#pack', 'Foo#pack'], function (bar, foo) {
   require(['foo#pack'], function (foo) {
   });
 });

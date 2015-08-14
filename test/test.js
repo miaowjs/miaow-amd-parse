@@ -37,7 +37,7 @@ describe('正常模式', function () {
   });
 
   it('添加模块标识', function () {
-    assert.equal(log.modules['id.js'].hash, '9ff069af1a8a8e34353f81367f4f3b06');
+    assert.equal(log.modules['id.js'].hash, '974e56c8cc6bfdd66513d0c35f4234ec');
   });
 
   it('获取依赖', function () {
@@ -52,7 +52,7 @@ describe('正常模式', function () {
   });
 
   it('修改依赖路径', function () {
-    assert.equal(log.modules['require.js'].hash, 'a067b5f727ff58d80c026106fdf0fdb4');
+    assert.equal(log.modules['require.js'].hash, '7c31ff22b7e7b13b07abc21eb3c8d3e2');
   });
 });
 
@@ -95,20 +95,19 @@ describe('打包模式', function () {
   });
 
   it('包主入口打包', function () {
-    var packedModules = log.modules['main.js'].packedModules;
+    var packList = log.modules['main.js'].packList;
 
-    assert.equal(packedModules.indexOf('bower_components/bar/main.js'), -1);
-    assert.equal(packedModules.indexOf('bower_components/bar/other.js'), -1);
-    assert.equal(packedModules[0], 'bower_components/foo.js');
-    assert.equal(packedModules[1], 'bower_components/bar/lib/baz.js');
+    assert.equal(packList.indexOf('bower_components/bar/main.js'), -1);
+    assert.equal(packList.indexOf('bower_components/bar/other.js'), -1);
+    assert.equal(packList[0], 'bower_components/foo.js');
+    assert.equal(packList[1], 'bower_components/bar/lib/baz.js');
   });
 
   it('强制打包', function () {
-    var packedModules = log.modules['force.js'].packedModules;
+    var packList = log.modules['force.js'].packList;
 
-    assert.equal(packedModules.indexOf('jquery'), -1);
-    assert.equal(packedModules[0], 'bower_components/foo.js');
-    assert.equal(packedModules[1], 'bower_components/bar/lib/baz.js');
-    assert.equal(packedModules[2], 'bower_components/bar/main.js');
+    assert.equal(packList.indexOf('jquery'), -1);
+    assert.equal(packList[0], 'bower_components/foo.js');
+    assert.equal(packList[1], 'bower_components/bar/main.js');
   });
 });

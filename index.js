@@ -4,7 +4,6 @@ var fs = require('fs');
 var mutil = require('miaow-util');
 var path = require('path');
 var recast = require('recast');
-var uniq = require('lodash').uniq;
 
 var defineParse = require('./lib/defineParse');
 var requireParse = require('./lib/requireParse');
@@ -69,12 +68,6 @@ function parse(option, cb) {
   ], function (err) {
     if (err) {
       return cb(err);
-    }
-
-    module.packedModules = uniq(module.packedModules);
-
-    if (module.packedModules.length) {
-      module.packed = true;
     }
 
     // 修改模块ID, 并合并文件
