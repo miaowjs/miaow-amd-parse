@@ -13,7 +13,6 @@ describe('正常模式', function () {
     miaow.compile({
       cwd: path.resolve(__dirname, './fixtures/normal'),
       output: path.resolve(__dirname, './output'),
-      pack: false,
       module: {
         tasks: [
           {
@@ -37,7 +36,7 @@ describe('正常模式', function () {
   });
 
   it('添加模块标识', function () {
-    assert.equal(log.modules['id.js'].hash, '974e56c8cc6bfdd66513d0c35f4234ec');
+    assert.equal(log.modules['id.js'].hash, '7260b57cf7b6579236438e71d6bec9cf');
   });
 
   it('获取依赖', function () {
@@ -47,12 +46,20 @@ describe('正常模式', function () {
     assert.equal(dependList[1], 'bower_components/foo.js');
     assert.equal(dependList[2], 'bower_components/bar/main.js');
     assert.equal(dependList[3], 'bower_components/bar/lib/baz.js');
+    assert.equal(dependList[4], 'info.json');
+    assert.equal(dependList[5], 'style.css');
+    assert.equal(dependList[6], 'img.png');
 
-    assert.equal(log.modules['require.js'].dependList[0], 'depend.js');
+    dependList = log.modules['require.js'].dependList;
+    assert.equal(dependList[0], 'depend.js');
+    assert.equal(dependList[1], 'img.png');
+    assert.equal(dependList[2], 'style.css');
+    assert.equal(dependList[3], 'info.json');
   });
 
   it('修改依赖路径', function () {
-    assert.equal(log.modules['require.js'].hash, '7c31ff22b7e7b13b07abc21eb3c8d3e2');
+    assert.equal(log.modules['depend.js'].hash, '5d5eeabc2677c6b8d8fab99d4a5942cb');
+    assert.equal(log.modules['require.js'].hash, '2d741fbd4b66bd32723a214b2dbcd4bf');
   });
 });
 

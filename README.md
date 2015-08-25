@@ -1,47 +1,38 @@
 # miaow-amd-parse
 
-> Miaow的AMD解析器, 可以获取AMD模块的依赖, 并可以补全模块标识和依赖路径
+> Miaow的AMD解析器, 可以补全模块名称和依赖的模块名称, 也可以将CSS和JSON转换成AMD模块. 依赖路径遵循喵呜的寻路规则
+
+## 效果示例
 
 ```javascript
-define(['bar', './foo/foo', 'fob'], function (bar, foo) {
-  return 'baz';
+define(['foo', './style.css', './info.json'], function (foo, style, info) {
+  // 调用样式模块的use方法即可使用样式, 调用unuse方法取消使用
+  style.use();
+  // JSON文件将被转换成简单对象引入
+  console.log(info);
 });
 
 /* 处理后 */
 define(
-  "baz_5c8a6eb6cb.js",
-  ["bower_components/bar_7ebfec5ba6.js", "foo/foo_4f4b0becb5.js", "bower_components/fob/index_df40670d34.js"],
+  "baz_5c8a6eb6cb",
+  ["bower_components/bar_7ebfec5ba6", "style.css_4f4b0becb5", "info.json_df40670d34"],
   function (bar, foo) {
     return 'baz';
   }
 );
 ```
 
-## 使用说明
-
-### 安装
-
-```
-npm install miaow-amd-parse --save-dev
-```
-
-### 在项目的 miaow.config.js 中添加模块的 tasks 设置
-
-```javascript
-//miaow.config.js
-module: {
-  tasks: [
-    {
-      test: /\.js$/,
-      plugins: ['miaow-amd-parse']
-    }
-  ]
-}
-```
-
 ### 参数说明
 
-* pack 默认为`false`, 这个参数用于设置是否打包的. 
-这里的打包逻辑是`package.json`中的`main`和`packMain`指定的打包入口文件, 会打包`define`中声明的依赖.
-否则不会打包, 除非在`define`或`require`中指定依赖时使用`#pack`参数, 比如`require('foo#pack')`. `packMain`可以是数组
-* ignore 默认为`undefined`, 用于排除寻路的模块名列表, 可以包含字符串和正则表达式, 比如`[jquery]`
+#### pack
+Type:`Boolean` Default:`false`
+
+是否进行打包操作
+
+当一个模块被指定为打包主入口的时候, 会将它依赖的非打包主入口的模块合并进自己, 可以通过 `package.json` 里面的 `main` 和 `extraMain` 指定打包主入口.
+
+如果在 `define` 或 `require` 表达式中指定依赖时使用 `#pack` 参数, 那就忽略上述规则, 强制将对应的模块合并进自己, 比如 `require('foo#pack')` .
+#### ignore
+Type:`Array` Default:`undefined`
+
+用于排除寻路的模块名列表, 可以包含字符串和正则表达式, 比如`['jquery']`
