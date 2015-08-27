@@ -36,7 +36,7 @@ describe('正常模式', function () {
   });
 
   it('添加模块标识', function () {
-    assert.equal(log.modules['id.js'].hash, '7260b57cf7b6579236438e71d6bec9cf');
+    assert.equal(log.modules['id.js'].hash, '974e56c8cc6bfdd66513d0c35f4234ec');
   });
 
   it('获取依赖', function () {
@@ -58,8 +58,8 @@ describe('正常模式', function () {
   });
 
   it('修改依赖路径', function () {
-    assert.equal(log.modules['depend.js'].hash, '5d5eeabc2677c6b8d8fab99d4a5942cb');
-    assert.equal(log.modules['require.js'].hash, '2d741fbd4b66bd32723a214b2dbcd4bf');
+    assert.equal(log.modules['depend.js'].hash, '52d893c804dddb3288b76270013e8587');
+    assert.equal(log.modules['require.js'].hash, '8b4f12af97f81d1ca360a247962db027');
   });
 });
 

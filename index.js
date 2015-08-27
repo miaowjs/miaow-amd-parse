@@ -31,7 +31,7 @@ function parse(option, cb) {
 
     // 修改模块ID, 并合并文件
     try {
-      module.contents = new Buffer(recast.prettyPrint(ast, {tabWidth: 2}).code);
+      module.contents = new Buffer(recast.print(ast).code);
     } catch (err) {
       return cb(err);
     }
