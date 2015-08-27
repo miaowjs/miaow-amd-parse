@@ -29,7 +29,7 @@ Type:`Boolean` Default:`false`
 
 是否进行打包操作
 
-当一个模块被指定为打包主入口的时候, 会将它依赖的非打包主入口的模块合并进自己, 可以通过 `package.json` 里面的 `main` 和 `extraMain` 指定打包主入口.
+当一个模块被指定为打包主入口的时候, 会将它静态依赖的非打包主入口的模块合并进自己, 可以通过 `package.json` 里面的 `main` 和 `extraMain` 指定打包主入口.
 
 如果在 `define` 或 `require` 表达式中指定依赖时使用 `#pack` 参数, 那就忽略上述规则, 强制将对应的模块合并进自己, 比如 `require('foo#pack')` .
 #### ignore

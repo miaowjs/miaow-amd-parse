@@ -106,8 +106,7 @@ describe('打包模式', function () {
 
     assert.equal(packList.indexOf('bower_components/bar/main.js'), -1);
     assert.equal(packList.indexOf('bower_components/bar/other.js'), -1);
-    assert.equal(packList[0], 'bower_components/foo.js');
-    assert.equal(packList[1], 'bower_components/bar/lib/baz.js');
+    assert.equal(packList[0], 'bower_components/bar/lib/baz.js');
   });
 
   it('强制打包', function () {
