@@ -61,6 +61,10 @@ describe('正常模式', function () {
     assert.equal(log.modules['depend.js'].hash, '52d893c804dddb3288b76270013e8587');
     assert.equal(log.modules['require.js'].hash, '8b4f12af97f81d1ca360a247962db027');
   });
+
+  it('忽略模块', function () {
+    assert.equal(log.modules['ignore.js'].hash, 'e2cc6099718cbaa0bc2506fb2dc37e00');
+  });
 });
 
 describe('打包模式', function () {

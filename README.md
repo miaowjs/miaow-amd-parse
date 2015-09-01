@@ -5,7 +5,7 @@
 ## 效果示例
 
 ```javascript
-define(['foo', './style.css', './info.json'], function (foo, style, info) {
+define(['foo', 'other#ignore', './style.css', './info.json'], function (foo, style, info) {
   // 调用样式模块的use方法即可使用样式, 调用unuse方法取消使用
   style.use();
   // JSON文件将被转换成简单对象引入
@@ -15,7 +15,7 @@ define(['foo', './style.css', './info.json'], function (foo, style, info) {
 /* 处理后 */
 define(
   "baz_5c8a6eb6cb",
-  ["bower_components/bar_7ebfec5ba6", "style.css_4f4b0becb5", "info.json_df40670d34"],
+  ["bower_components/bar_7ebfec5ba6", 'other', "style.css_4f4b0becb5", "info.json_df40670d34"],
   function (bar, foo) {
     return 'baz';
   }
