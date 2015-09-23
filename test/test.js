@@ -58,8 +58,8 @@ describe('正常模式', function () {
   });
 
   it('修改依赖路径', function () {
-    assert.equal(log.modules['depend.js'].hash, '52d893c804dddb3288b76270013e8587');
-    assert.equal(log.modules['require.js'].hash, '8b4f12af97f81d1ca360a247962db027');
+    assert.equal(log.modules['depend.js'].hash, '0e25b85f8090d46db5e3ad8ad1a31994');
+    assert.equal(log.modules['require.js'].hash, '02b76e7f7706731dde00cf0cff87571c');
   });
 
   it('忽略模块', function () {
