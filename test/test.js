@@ -58,66 +58,11 @@ describe('正常模式', function () {
   });
 
   it('修改依赖路径', function () {
-    assert.equal(log.modules['depend.js'].hash, '0e25b85f8090d46db5e3ad8ad1a31994');
-    assert.equal(log.modules['require.js'].hash, '02b76e7f7706731dde00cf0cff87571c');
+    assert.equal(log.modules['depend.js'].hash, '4b82a9fb2ad3e7e4e0c4fd1ca228c4b9');
+    assert.equal(log.modules['require.js'].hash, '24764a9a1cc62d4681a25094b938e07e');
   });
 
   it('忽略模块', function () {
     assert.equal(log.modules['ignore.js'].hash, 'e2cc6099718cbaa0bc2506fb2dc37e00');
-  });
-});
-
-describe('打包模式', function () {
-  this.timeout(10e3);
-
-  var log;
-
-  before(function (done) {
-    miaow.compile({
-      cwd: path.resolve(__dirname, './fixtures/pack'),
-      output: path.resolve(__dirname, './output'),
-      pack: false,
-      module: {
-        tasks: [
-          {
-            test: /\.js$/,
-            plugins: [{
-              plugin: parse,
-              option: {
-                pack: true,
-                ignore: ['jquery']
-              }
-            }]
-          }
-        ]
-      }
-    }, function (err) {
-      if (err) {
-        console.error(err.toString());
-        process.exit(1);
-      }
-      log = JSON.parse(fs.readFileSync(path.resolve(__dirname, './output/miaow.log.json')));
-      done();
-    });
-  });
-
-  it('接口是否存在', function () {
-    assert(!!parse);
-  });
-
-  it('包主入口打包', function () {
-    var packList = log.modules['main.js'].packList;
-
-    assert.equal(packList.indexOf('bower_components/bar/main.js'), -1);
-    assert.equal(packList.indexOf('bower_components/bar/other.js'), -1);
-    assert.equal(packList[0], 'bower_components/bar/lib/baz.js');
-  });
-
-  it('强制打包', function () {
-    var packList = log.modules['force.js'].packList;
-
-    assert.equal(packList.indexOf('jquery'), -1);
-    assert.equal(packList[0], 'bower_components/foo.js');
-    assert.equal(packList[1], 'bower_components/bar/main.js');
   });
 });
