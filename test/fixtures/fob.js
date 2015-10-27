@@ -1,4 +1,4 @@
-/**
- * @license anhulife
+/*!
+ * thirdparty comment
  */
 console.log('fob');
