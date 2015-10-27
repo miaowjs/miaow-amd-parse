@@ -1,44 +1,48 @@
+var _ = require('lodash');
 var async = require('async');
-var mutil = require('miaow-util');
 var recast = require('recast');
 
 var defineParse = require('./lib/defineParse');
 var requireParse = require('./lib/requireParse');
 var pkg = require('./package.json');
 
-function parse(option, cb) {
-  var contents = this.contents.toString();
+module.exports = function(options, callback) {
+  var context = this;
+  var contents = context.contents.toString();
 
   if (!contents.trim()) {
-    return cb();
+    return callback();
   }
 
+  var ast;
   try {
-    var ast = recast.parse(contents);
+    ast = recast.parse(contents);
   } catch (err) {
-    return cb(err);
+    return callback(err);
   }
 
-  var module = this;
+  // 设置AMD依赖
+  context.extra.AMDDependencies = context.extra.AMDDependencies || [];
 
   async.parallel([
-    requireParse.bind(this, option, ast),
-    defineParse.bind(this, option, ast)
-  ], function (err) {
+    _.partial(requireParse, context, options, ast),
+    _.partial(defineParse, context, options, ast)
+  ], function(err) {
     if (err) {
-      return cb(err);
+      return callback(err);
     }
 
-    // 修改模块ID, 并合并文件
     try {
-      module.contents = new Buffer(recast.print(ast).code);
+      context.contents = new Buffer(recast.print(ast).code);
     } catch (err) {
-      return cb(err);
+      return callback(err);
     }
 
-    cb();
+    callback();
   });
-}
+};
 
-module.exports = mutil.plugin(pkg.name, pkg.version, parse);
+module.exports.toString = function() {
+  return [pkg.name, pkg.version].join('@');
+};
 

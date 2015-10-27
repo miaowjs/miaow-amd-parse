@@ -1,7 +1,7 @@
 {
   "name": "miaow-amd-parse",
   "description": "Miaow的AMD解析器, 可以补全模块名称和依赖的模块名称, 也可以将CSS和JSON转换成AMD模块. 依赖路径遵循喵呜的寻路规则",
-  "version": "3.4.0",
+  "version": "4.0.0",
   "repository": "miaowjs/miaow-amd-parse",
   "author": {
     "name": "anhulife",
@@ -13,14 +13,15 @@
     "amd"
   ],
   "dependencies": {
-    "async": "~0.9.0",
-    "lodash": "~3.8.0",
-    "miaow-util": "~0.6.1",
-    "recast": "~0.10.12"
+    "async": "~1.4.2",
+    "lodash": "~3.10.1",
+    "recast": "~0.10.33"
   },
   "devDependencies": {
-    "miaow": "^4.1.0",
-    "mocha": "^2.2.4"
+    "miaow": "^5.0.0",
+    "mocha": "^2.3.3",
+    "eslint": "^1.7.2",
+    "eslint-config-airbnb": "^0.1.0"
   },
   "scripts": {
     "postpublish": "cnpm sync miaow-amd-parse",

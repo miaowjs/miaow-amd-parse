@@ -1,68 +1,47 @@
+var _ = require('lodash');
 var assert = require('assert');
 var fs = require('fs');
 var miaow = require('miaow');
 var path = require('path');
 
 var parse = require('../index');
-describe('正常模式', function () {
+describe('正常模式', function() {
   this.timeout(10e3);
 
   var log;
 
-  before(function (done) {
-    miaow.compile({
-      cwd: path.resolve(__dirname, './fixtures/normal'),
-      output: path.resolve(__dirname, './output'),
-      module: {
-        tasks: [
-          {
-            test: /\.js$/,
-            plugins: [parse]
-          }
-        ]
-      }
-    }, function (err) {
+  before(function(done) {
+    miaow({
+      context: path.resolve(__dirname, './fixtures')
+    }, function(err) {
       if (err) {
-        console.error(err.toString());
+        console.error(err.toString(), err.stack);
         process.exit(1);
       }
+
       log = JSON.parse(fs.readFileSync(path.resolve(__dirname, './output/miaow.log.json')));
       done();
     });
   });
 
-  it('接口是否存在', function () {
+  it('接口是否存在', function() {
     assert(!!parse);
   });
 
-  it('添加模块标识', function () {
-    assert.equal(log.modules['id.js'].hash, '974e56c8cc6bfdd66513d0c35f4234ec');
+  it('处理AMD模块', function() {
+    assert.equal(_.find(log.modules, {src: 'define.js'}).destHash, '2bce6a0896aeffe2f3bcc2758683c668');
+    assert.equal(_.find(log.modules, {src: 'require.js'}).destHash, 'e87d26bdab12ec5f514f7c972c9ff97b');
   });
 
-  it('获取依赖', function () {
-    var dependList = log.modules['depend.js'].dependList;
-
-    assert.equal(dependList[0], 'id.js');
-    assert.equal(dependList[1], 'bower_components/foo.js');
-    assert.equal(dependList[2], 'bower_components/bar/main.js');
-    assert.equal(dependList[3], 'bower_components/bar/lib/baz.js');
-    assert.equal(dependList[4], 'info.json');
-    assert.equal(dependList[5], 'style.css');
-    assert.equal(dependList[6], 'img.png');
-
-    dependList = log.modules['require.js'].dependList;
-    assert.equal(dependList[0], 'depend.js');
-    assert.equal(dependList[1], 'img.png');
-    assert.equal(dependList[2], 'style.css');
-    assert.equal(dependList[3], 'info.json');
+  it('加载其他类型模块', function() {
+    assert.equal(_.find(log.modules, {src: 'loader.js'}).destHash, 'e7d4aea93311cf1bccae71474464fd92');
   });
 
-  it('修改依赖路径', function () {
-    assert.equal(log.modules['depend.js'].hash, '4b82a9fb2ad3e7e4e0c4fd1ca228c4b9');
-    assert.equal(log.modules['require.js'].hash, '24764a9a1cc62d4681a25094b938e07e');
+  it('调试模式', function() {
+    assert.equal(_.find(log.modules, {src: 'debug.js'}).destHash, '2411230f63ea36dae6f4753ad14c47cd');
   });
 
-  it('忽略模块', function () {
-    assert.equal(log.modules['ignore.js'].hash, 'e2cc6099718cbaa0bc2506fb2dc37e00');
+  it('第三方代码', function() {
+    assert.equal(_.find(log.modules, {src: 'thirdparty.js'}).destHash, 'c83ad1e0a04322f243854c49fa52d21c');
   });
 });
