@@ -5,7 +5,8 @@
 ## 效果示例
 
 ```javascript
-define(['jquery', './mock#debug', './style.css', './info.json', './template.tpl'], function($, mock, style, info, template) {
+define(['jquery#ignore', './mock#debug', './style.css', './info.json', './template.tpl'], function($, mock, style, info, template) {
+  // jquery 不会做寻路处理
   // 应用样式
   style.use();
   // 取消应用样式

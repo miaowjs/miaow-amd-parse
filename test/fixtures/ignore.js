@@ -1,0 +1,2 @@
+define(['jquery#ignore'], function() {
+});
