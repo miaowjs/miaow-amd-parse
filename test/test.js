@@ -29,7 +29,7 @@ describe('正常模式', function() {
   });
 
   it('处理AMD模块', function() {
-    assert.equal(_.find(log.modules, {src: 'define.js'}).destHash, '2bce6a0896aeffe2f3bcc2758683c668');
+    assert.equal(_.find(log.modules, {src: 'define.js'}).destHash, '19902fcfb36509bdf56c8395ff2b651f');
     assert.equal(_.find(log.modules, {src: 'require.js'}).destHash, 'e87d26bdab12ec5f514f7c972c9ff97b');
   });
 
@@ -42,6 +42,6 @@ describe('正常模式', function() {
   });
 
   it('第三方代码', function() {
-    assert.equal(_.find(log.modules, {src: 'thirdparty.js'}).destHash, 'c83ad1e0a04322f243854c49fa52d21c');
+    assert.equal(_.find(log.modules, {src: 'thirdparty.js'}).destHash, '8aca4420f46eab1e841a93bcee3ad153');
   });
 });
