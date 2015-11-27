@@ -1,7 +1,7 @@
 {
   "name": "miaow-amd-parse",
   "description": "Miaow的AMD解析器, 可以补全模块名称和依赖的模块名称, 也可以将CSS和JSON转换成AMD模块. 依赖路径遵循喵呜的寻路规则",
-  "version": "4.0.7",
+  "version": "4.1.0",
   "repository": "miaowjs/miaow-amd-parse",
   "author": {
     "name": "anhulife",
