@@ -18,7 +18,7 @@
     "recast": "~0.10.38"
   },
   "devDependencies": {
-    "miaow": "^5.0.0",
+    "miaow": "^5.2.0",
     "mocha": "^2.3.3",
     "eslint": "^1.7.2",
     "eslint-config-airbnb": "^0.1.0"

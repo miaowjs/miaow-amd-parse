@@ -18,14 +18,7 @@ module.exports = {
   modules: [
     {
       test: '*.js',
-      tasks: [
-        {
-          task: parse,
-          options: {
-            debug: true
-          }
-        }
-      ]
+      tasks: [parse]
     }
   ]
 };
