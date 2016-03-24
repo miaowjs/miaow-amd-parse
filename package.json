@@ -14,7 +14,9 @@
   ],
   "dependencies": {
     "async": "~1.4.2",
+    "is-url-superb": "~2.0.0",
     "lodash": "~3.10.1",
+    "path-is-absolute": "~1.0.0",
     "recast": "~0.10.38"
   },
   "devDependencies": {
