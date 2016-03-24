@@ -34,7 +34,7 @@ describe('正常模式', function () {
   });
 
   it('加载其他类型模块', function () {
-    assert.equal(_.find(log.modules, {src: 'loader.js'}).destHash, '3fff43bc12ca5a07d04997143281bb66');
+    assert.equal(_.find(log.modules, {src: 'loader.js'}).destHash, '5a28c801acba22950d29fce26b29ea7e');
   });
 
   it('调试模式', function () {
