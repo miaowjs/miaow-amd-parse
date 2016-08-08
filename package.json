@@ -17,6 +17,8 @@
     "is-url-superb": "2.0.0",
     "lodash": "3.10.1",
     "path-is-absolute": "1.0.0",
+    "postcss": "^5.1.2",
+    "postcss-modules": "^0.5.0",
     "recast": "0.10.43"
   },
   "devDependencies": {
@@ -30,6 +32,6 @@
     "test": "mocha"
   },
   "engines": {
-    "node": ">=0.10"
+    "node": ">=4.0"
   }
 }
